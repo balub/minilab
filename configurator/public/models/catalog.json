@@ -1,0 +1,424 @@
+{
+  "generatedAt": "2026-08-30T11:23:31.687Z",
+  "rack": {
+    "id": "minilab-8u",
+    "name": "MiniLab 8U",
+    "heightU": 8,
+    "unitMm": 44.45,
+    "widthMm": 258,
+    "depthMm": 258,
+    "extrusionMm": 20
+  },
+  "modules": [
+    {
+      "id": "1u-blank-lasercut",
+      "name": "1U Blank",
+      "source": "1U Blank LaserCut.step",
+      "role": "module",
+      "heightU": 1,
+      "manufacturingMethod": "laser-cut",
+      "model": "/models/1u-blank-lasercut.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 24,
+        "color": "#30343a"
+      }
+    },
+    {
+      "id": "1u-test",
+      "name": "1U Test Panel",
+      "source": "1U Test.step",
+      "role": "module",
+      "heightU": 1,
+      "model": "/models/1u-test.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 32,
+        "color": "#59616b"
+      }
+    },
+    {
+      "id": "2-raspberry-pi-holders-oled",
+      "name": "Raspberry Pi Duo + OLED",
+      "source": "2 Raspberry Pi holders + Oled.step",
+      "role": "module",
+      "heightU": null,
+      "model": "/models/2-raspberry-pi-holders-oled.glb",
+      "status": "needs-review",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 180,
+        "color": "#33403a"
+      }
+    },
+    {
+      "id": "8u-20x20-extrusion-frame",
+      "name": "8U 2020 Extrusion Frame",
+      "source": "8U 20x20 Extrusion Frame.step",
+      "role": "frame",
+      "heightU": 8,
+      "model": "/models/8u-20x20-extrusion-frame.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          -1.5707963268,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      }
+    },
+    {
+      "id": "base-plate",
+      "name": "Base Plate",
+      "source": "Base Plate.step",
+      "role": "fixed-part",
+      "heightU": null,
+      "model": "/models/base-plate.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      }
+    },
+    {
+      "id": "dotmatrix-v1",
+      "name": "Dot Matrix Panel",
+      "source": "DotMatrix v1.step",
+      "role": "module",
+      "heightU": 1,
+      "model": "/models/dotmatrix-v1.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 40,
+        "color": "#242a30"
+      }
+    },
+    {
+      "id": "hp-mount-v2-v1",
+      "name": "HP Mini Mount",
+      "source": "hp mount v2 v1.step",
+      "role": "module",
+      "heightU": 1,
+      "model": "/models/hp-mount-v2-v1.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 230,
+        "color": "#343940"
+      }
+    },
+    {
+      "id": "omada-switch-lasercut",
+      "name": "Omada Switch Mount",
+      "source": "Omada Switch LaserCut.step",
+      "role": "module",
+      "heightU": 1,
+      "manufacturingMethod": "laser-cut",
+      "model": "/models/omada-switch-lasercut.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 210,
+        "color": "#2d3338"
+      }
+    },
+    {
+      "id": "patchpanel-new",
+      "name": "Patch Panel",
+      "source": "PatchPanel New.step",
+      "role": "module",
+      "heightU": 1,
+      "model": "/models/patchpanel-new.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 45,
+        "color": "#272c31"
+      }
+    },
+    {
+      "id": "patchpanel-plate-lasercut",
+      "name": "Patch Panel Plate",
+      "source": "PatchPanel Plate LaserCut.step",
+      "role": "module",
+      "heightU": 1,
+      "manufacturingMethod": "laser-cut",
+      "model": "/models/patchpanel-plate-lasercut.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 24,
+        "color": "#3b4148"
+      }
+    },
+    {
+      "id": "raspberrypi-v1",
+      "name": "Raspberry Pi Mount",
+      "source": "RaspberryPi v1.step",
+      "role": "module",
+      "heightU": 1,
+      "model": "/models/raspberrypi-v1.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          -1.5707963268,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 150,
+        "color": "#35433c"
+      }
+    },
+    {
+      "id": "tft-panel-lasercut",
+      "name": "TFT Panel",
+      "source": "TFT panel LaserCut.step",
+      "role": "module",
+      "heightU": 1,
+      "manufacturingMethod": "laser-cut",
+      "model": "/models/tft-panel-lasercut.glb",
+      "status": "ready",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 55,
+        "color": "#252b31"
+      }
+    },
+    {
+      "id": "tray",
+      "name": "Equipment Tray",
+      "source": "Tray.step",
+      "role": "module",
+      "heightU": null,
+      "model": "/models/tray.glb",
+      "status": "needs-review",
+      "mount": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "reference": "front-center-bottom"
+      },
+      "preview": {
+        "widthMm": 255,
+        "depthMm": 320,
+        "color": "#555d66"
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "minilab",
+  "private": true,
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "dev": "pnpm --filter @minilab/configurator dev",
+    "build": "pnpm --filter @minilab/configurator build",
+    "lint": "pnpm --filter @minilab/configurator lint",
+    "test": "pnpm --filter @minilab/configurator test && node --test scripts/models.test.mjs",
+    "models": "node scripts/models.mjs",
+    "deploy": "pnpm build && pnpm dlx wrangler pages deploy configurator/dist --project-name minilab-configurator --branch main"
+  },
+  "dependencies": {
+    "@gltf-transform/core": "^4.2.1",
+    "@gltf-transform/functions": "^4.2.1",
+    "obj2gltf": "^3.1.6"
+  }
+}

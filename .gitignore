@@ -1,0 +1,13 @@
+node_modules/
+configurator/node_modules/
+configurator/dist/
+configurator/public/models/*.glb
+configurator/public/models/*.glb.bin
+configurator/public/models/*.obj
+configurator/public/models/*.mtl
+configurator/public/models/.work/
+coverage/
+.DS_Store
+*.log
+__pycache__/
+*.pyc

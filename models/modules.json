@@ -1,0 +1,95 @@
+{
+  "rack": {
+    "id": "minilab-8u",
+    "name": "MiniLab 8U",
+    "heightU": 8,
+    "unitMm": 44.45,
+    "widthMm": 258,
+    "depthMm": 258,
+    "extrusionMm": 20
+  },
+  "models": {
+    "8U 20x20 Extrusion Frame.step": {
+      "name": "8U 2020 Extrusion Frame",
+      "role": "frame",
+      "heightU": 8,
+      "mount": {
+        "rotation": [-1.5707963268, 0, 0]
+      }
+    },
+    "Base Plate.step": {
+      "name": "Base Plate",
+      "role": "fixed-part",
+      "heightU": null
+    },
+    "1U Blank LaserCut.step": {
+      "name": "1U Blank",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 24, "color": "#30343a" }
+    },
+    "1U Test.step": {
+      "name": "1U Test Panel",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 32, "color": "#59616b" }
+    },
+    "2 Raspberry Pi holders + Oled.step": {
+      "name": "Raspberry Pi Duo + OLED",
+      "role": "module",
+      "heightU": null,
+      "preview": { "widthMm": 255, "depthMm": 180, "color": "#33403a" }
+    },
+    "DotMatrix v1.step": {
+      "name": "Dot Matrix Panel",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 40, "color": "#242a30" }
+    },
+    "Omada Switch LaserCut.step": {
+      "name": "Omada Switch Mount",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 210, "color": "#2d3338" }
+    },
+    "PatchPanel New.step": {
+      "name": "Patch Panel",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 45, "color": "#272c31" }
+    },
+    "PatchPanel Plate LaserCut.step": {
+      "name": "Patch Panel Plate",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 24, "color": "#3b4148" }
+    },
+    "RaspberryPi v1.step": {
+      "name": "Raspberry Pi Mount",
+      "role": "module",
+      "heightU": 1,
+      "mount": {
+        "rotation": [-1.5707963268, 0, 0]
+      },
+      "preview": { "widthMm": 255, "depthMm": 150, "color": "#35433c" }
+    },
+    "TFT panel LaserCut.step": {
+      "name": "TFT Panel",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 55, "color": "#252b31" }
+    },
+    "Tray.step": {
+      "name": "Equipment Tray",
+      "role": "module",
+      "heightU": null,
+      "preview": { "widthMm": 255, "depthMm": 320, "color": "#555d66" }
+    },
+    "hp mount v2 v1.step": {
+      "name": "HP Mini Mount",
+      "role": "module",
+      "heightU": 1,
+      "preview": { "widthMm": 255, "depthMm": 230, "color": "#343940" }
+    }
+  }
+}

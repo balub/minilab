@@ -1,0 +1,7 @@
+packages:
+  - configurator
+
+onlyBuiltDependencies:
+  - draco3d
+  - esbuild
+  - sharp
