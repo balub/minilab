@@ -142,7 +142,7 @@ pnpm dev
 | `pnpm test` | Run rack-placement, interaction, and model-pipeline tests |
 | `pnpm lint` | Run ESLint with warnings treated as failures |
 | `pnpm build` | Type-check and build the production configurator |
-| `pnpm deploy` | Build and publish the companion configurator to Cloudflare Pages |
+| `pnpm run deploy` | Build and publish the companion configurator to Cloudflare Pages |
 
 ## STEP-to-web pipeline
 
