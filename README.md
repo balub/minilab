@@ -1,120 +1,76 @@
-# MiniLab 3D configurator
+# MiniLab
 
-MiniLab is a modular server rack built from 2020 aluminium extrusion. This repository keeps the Fusion 360 STEP exports as source-of-truth and provides a pnpm-managed React/Three.js configurator for placing reviewed rack modules into U positions.
+MiniLab is a compact, modular server rack built around 2020 aluminium extrusion and standard rack-unit spacing. The hardware is the project: this repository contains the source STEP models for the frame, mounting plates, panels, shelves, and device-specific modules.
 
-**Live configurator:** [minilab-configurator.pages.dev](https://minilab-configurator.pages.dev/)
+The rack currently targets an 8U build with a 258 × 258 mm footprint. Its module system is intentionally metadata-driven so future rack heights can reuse the same hardware library and mounting rules.
 
-The deployed configurator uses GLBs generated from the real STEP geometry. Dimensionally representative procedural models remain available as a fallback when generated assets are unavailable.
+> **Companion tool:** [Open the MiniLab 3D configurator](https://minilab-configurator.pages.dev/) to assemble the current hardware modules in a browser before building the rack.
 
-## Project structure
+## Hardware specification
+
+| Property | Current design |
+| --- | --- |
+| Rack height | 8U |
+| Rack unit | 44.45 mm |
+| Usable rack height | 355.6 mm |
+| Frame footprint | Approximately 258 × 258 mm |
+| Frame material | 2020 aluminium extrusion |
+| Module sizes | 1U, 2U, and larger modules supported |
+| CAD source format | STEP, exported from Fusion 360 |
+
+Rack height is a design parameter rather than an application constant. The current frame is 8U, but the catalog and configurator can describe other heights.
+
+## CAD source of truth
+
+All original hardware sources live in [`models/`](models/). STEP files are never modified by the web-model pipeline.
+
+The current hardware set includes:
+
+- 8U 2020 extrusion frame and base plate
+- Blank and test panels
+- Patch panel and patch-panel plate
+- Omada switch and HP Mini mounts
+- Raspberry Pi and dual Raspberry Pi + OLED mounts
+- Dot-matrix and TFT display panels
+- Equipment tray
+
+Files containing `LaserCut`, `laser cut`, or `laser-cut` identify parts intended for laser cutting. That manufacturing method is preserved in [`models/modules.json`](models/modules.json). No manufacturing method is assumed for the other parts.
+
+The original STEP exports are committed so the hardware remains usable independently of the configurator. Generated GLB, OBJ, and MTL files are build artifacts and are not committed.
+
+## Repository layout
 
 ```text
 minilab/
-├── models/                         Original STEP sources and reviewed metadata
-│   ├── *.step                      Never generated or modified by the pipeline
-│   └── modules.json                Rack and module metadata overrides
-├── configurator/
-│   ├── public/models/
-│   │   ├── catalog.json            Generated model catalog
-│   │   └── *.glb                   Generated build assets (when FreeCAD exists)
-│   └── src/                        React, rack rules, and Three.js scene
+├── models/                         Hardware source of truth
+│   ├── *.step                      Original Fusion 360 STEP exports
+│   └── modules.json                Rack dimensions and module metadata
+├── configurator/                   Companion React/Three.js application
+│   ├── public/models/catalog.json  Generated browser catalog
+│   ├── src/                        Placement rules and 3D interface
+│   └── docs/                       UI concepts and implementation records
 ├── scripts/
-│   ├── models.mjs                  Model catalog/conversion orchestrator
-│   └── freecad/step-to-obj.py      FreeCAD tessellation script
-├── docs/
-│   ├── design/                     UI concept reference
-│   └── superpowers/                Design and implementation records
+│   ├── models.mjs                  STEP-to-GLB pipeline orchestration
+│   └── freecad/step-to-obj.py      FreeCAD tessellation step
 ├── package.json
 └── pnpm-workspace.yaml
 ```
 
-The existing folder is named `models/` on disk. On the default macOS case-insensitive filesystem, this is the same location previously referred to as `Models/`. The source directory has not been renamed or deleted.
+## Add or revise hardware
 
-## Requirements
+1. Export the revised part from Fusion 360 as STEP.
+2. Place the STEP file in `models/`. Keep `LaserCut` in the filename when applicable.
+3. Add or update the exact filename in `models/modules.json`.
+4. Set the hardware role and a verified integer `heightU`. Use `null` when the rack height still needs physical review.
+5. Run `pnpm models` to regenerate the browser assets and catalog.
+6. Inspect the part in several U positions using `pnpm dev`.
+7. Run `pnpm test`, `pnpm lint`, and `pnpm build` before publishing changes.
 
-- Node.js 20 or newer
-- pnpm 10 or newer
-- A browser with WebGL 2 support
-- Optional: [FreeCAD](https://www.freecad.org/downloads) with `FreeCADCmd` for automatic STEP conversion
-
-Only pnpm is used for JavaScript dependencies and project commands.
-
-## Install and run
-
-```bash
-pnpm install
-pnpm models
-pnpm dev
-```
-
-Open the local URL printed by Vite. The configurator supports orbit, pan, zoom, click-to-add, drag-to-slot, click-to-move, move up/down, remove, fit view, and reset.
-
-Production checks:
-
-```bash
-pnpm test
-pnpm lint
-pnpm build
-```
-
-Deploy the verified production build to the existing Cloudflare Pages project:
-
-```bash
-pnpm deploy
-```
-
-## Commands
-
-| Command | Purpose |
-| --- | --- |
-| `pnpm dev` | Start the configurator development server |
-| `pnpm build` | Type-check and create the production build |
-| `pnpm lint` | Run ESLint with warnings treated as failures |
-| `pnpm test` | Run placement, interaction, and pipeline tests |
-| `pnpm models` | Scan STEP sources, convert when possible, optimize GLBs, and regenerate the catalog |
-| `pnpm deploy` | Build and publish the configurator to Cloudflare Pages |
-
-## STEP to GLB pipeline
-
-Browsers do not load STEP directly. `pnpm models` runs this pipeline without changing a STEP file:
-
-```text
-models/*.step
-  → FreeCADCmd + scripts/freecad/step-to-obj.py
-  → tessellated OBJ in public/models/.work/
-  → obj2gltf binary conversion
-  → glTF Transform deduplication, welding, and pruning
-  → configurator/public/models/<stable-id>.glb
-  → configurator/public/models/catalog.json
-```
-
-FreeCAD is optional so a new checkout remains usable. If `FreeCADCmd` is unavailable, `pnpm models` prints a warning, regenerates the complete catalog, and leaves each missing model on its procedural preview. To require real conversion in CI or a release build:
-
-```bash
-MINILAB_MODELS_STRICT=1 pnpm models
-```
-
-FreeCAD normally installs a headless executable named `FreeCADCmd` or `freecadcmd`. The script checks both command names and the common macOS application paths. For another installation location:
-
-```bash
-FREECAD_CMD=/absolute/path/to/FreeCADCmd pnpm models
-```
-
-Confirm the executable before conversion:
-
-```bash
-/absolute/path/to/FreeCADCmd --version
-```
-
-On macOS, install the official Apple Silicon or Intel build from the FreeCAD download page, move it to `/Applications`, and run `pnpm models`. Linux package names and executable paths vary by distribution. FreeCAD documents the headless executable and script invocation in its [command-line documentation](https://reqrefusion.github.io/FreeCAD-Documentation-html/wiki/Start_up_and_Configuration.html).
-
-### Generated assets
-
-Generated `.glb`, intermediate `.obj`, and `.mtl` files are ignored by Git. `catalog.json` is checked in so the procedural application works without FreeCAD. STEP files are the only CAD source-of-truth.
+The configurator never derives rack occupancy from tessellated geometry. `heightU` is explicit hardware metadata, while mounting transforms provide a non-destructive browser alignment layer for STEP exports with differing origins or axes.
 
 ## Module metadata
 
-Reviewed metadata lives in `models/modules.json`. The generated catalog has records shaped like this:
+Each hardware part has an explicit catalog record:
 
 ```json
 {
@@ -125,7 +81,6 @@ Reviewed metadata lives in `models/modules.json`. The generated catalog has reco
   "heightU": 1,
   "manufacturingMethod": "laser-cut",
   "model": "/models/1u-blank-lasercut.glb",
-  "status": "ready",
   "mount": {
     "position": [0, 0, 0],
     "rotation": [0, 0, 0],
@@ -135,57 +90,73 @@ Reviewed metadata lives in `models/modules.json`. The generated catalog has reco
 }
 ```
 
-Rules:
+Important rules:
 
-- `heightU` controls all placement; mesh bounds never decide occupancy.
-- `heightU: null` means the value needs review. The module remains visible but cannot be placed.
-- `role: "frame"` is rack infrastructure, `fixed-part` is non-selectable hardware, and `module` appears in the library.
-- A filename containing `laser cut`, `laser-cut`, or `lasercut` case-insensitively automatically receives `manufacturingMethod: "laser-cut"`.
-- Files without that phrase receive no manufacturing method. They are not assumed to be 3D printed.
-- `preview` describes only the procedural fallback. It is not manufacturing or occupancy data.
+- `heightU` controls physical occupancy and overlap prevention.
+- `heightU: null` marks hardware that still needs dimensional review and prevents placement.
+- `role: "frame"` and `role: "fixed-part"` identify rack infrastructure.
+- `role: "module"` makes a reviewed part available in the configurator library.
+- `mount` corrects browser alignment without changing the original CAD.
+- `preview` is only a procedural fallback and is not manufacturing data.
 
-The current source set has four laser-cut files. Nine modules have verified 1U envelopes from their filenames and converted bounds: 1U Blank, 1U Test Panel, Dot Matrix Panel, HP Mini Mount, Omada Switch Mount, Patch Panel, Patch Panel Plate, Raspberry Pi Mount, and TFT Panel. Raspberry Pi Duo + OLED and Equipment Tray remain `heightU: null` because their required rack height is not unambiguous.
+Nine current modules have reviewed 1U envelopes. Raspberry Pi Duo + OLED and Equipment Tray remain unplaceable until their rack heights are confirmed rather than guessed.
 
-## Coordinate system and mounting reference
+## Companion configurator
 
-STEP origins are preserved. The conversion script tessellates geometry but never rewrites source CAD. In the viewer, each explicit metadata rotation is applied first; transformed world bounds are then centered horizontally and aligned by their lowest Y and frontmost Z edges, establishing a `front-center-bottom` mounting reference. A module in U1 is placed at the bottom of the first 44.45 mm slot; higher U positions are exact multiples of 44.45 mm.
+The browser configurator is a visualization and planning aid for the hardware. It renders the actual STEP-derived models, snaps modules to U positions, prevents collisions, supports different rack heights, and makes configurations easy to explore without acting like a full CAD package.
 
-If an export has an unusual axis or origin, add an explicit `mount` override for that source in `models/modules.json`:
+### Requirements
 
-```json
-"Example.step": {
-  "name": "Example",
-  "role": "module",
-  "heightU": 2,
-  "mount": {
-    "position": [0, 0, 0],
-    "rotation": [0, 1.5707963268, 0],
-    "scale": [1, 1, 1],
-    "reference": "front-center-bottom"
-  }
-}
+- Node.js 20 or newer
+- pnpm 10 or newer
+- A WebGL 2 capable browser
+- Optional: [FreeCAD](https://www.freecad.org/downloads) with `FreeCADCmd` for regenerating real web models
+
+Only pnpm is used for JavaScript dependencies and commands.
+
+### Run locally
+
+```bash
+pnpm install
+pnpm models
+pnpm dev
 ```
 
-Rotation values are radians. Position values are viewer units after the standard millimetre-to-scene scale. Keep normalization in metadata; do not modify the STEP file to correct the viewer.
+### Project commands
 
-## Add or update a rack module
+| Command | Purpose |
+| --- | --- |
+| `pnpm models` | Scan hardware sources, convert changed STEP files, optimize GLBs, and regenerate the catalog |
+| `pnpm dev` | Start the local configurator |
+| `pnpm test` | Run rack-placement, interaction, and model-pipeline tests |
+| `pnpm lint` | Run ESLint with warnings treated as failures |
+| `pnpm build` | Type-check and build the production configurator |
+| `pnpm deploy` | Build and publish the companion configurator to Cloudflare Pages |
 
-1. Export the source from Fusion 360 as STEP into `models/`. Keep `LaserCut` in the filename when that manufacturing method applies.
-2. Add an entry with the exact filename under `models.modules` in `models/modules.json`.
-3. Set `role` and a verified integer `heightU`. Use `null` until the height is confirmed.
-4. Add a `preview` color, width, and depth for the procedural fallback if useful.
-5. Run:
+## STEP-to-web pipeline
 
-   ```bash
-   pnpm models
-   pnpm test
-   pnpm dev
-   ```
+Browsers cannot practically render STEP directly. `pnpm models` preserves the CAD sources and generates web assets through this pipeline:
 
-6. Check the model in several U positions. If it is rotated or offset, adjust only its `mount` metadata and repeat the checks.
+```text
+models/*.step
+  → FreeCADCmd + scripts/freecad/step-to-obj.py
+  → temporary tessellated OBJ
+  → obj2gltf binary conversion
+  → glTF Transform deduplication, welding, and pruning
+  → configurator/public/models/*.glb
+  → configurator/public/models/catalog.json
+```
 
-Updating a STEP file and rerunning `pnpm models` rebuilds its GLB when the STEP modification time is newer than the generated asset.
+If FreeCAD is unavailable, the command still regenerates the catalog and the application uses procedural previews for missing GLBs. Require complete real-model conversion with:
 
-## Rack sizes
+```bash
+MINILAB_MODELS_STRICT=1 pnpm models
+```
 
-Rack dimensions live in the `rack` object in `models/modules.json`. The placement domain, occupancy rail, U guides, and procedural frame all read `heightU`; none is fixed to 8U. `unitMm` is currently `44.45` and should remain unchanged for standard rack units.
+For a non-standard FreeCAD installation:
+
+```bash
+FREECAD_CMD=/absolute/path/to/FreeCADCmd pnpm models
+```
+
+Generated `.glb`, `.obj`, and `.mtl` files are ignored by Git. The STEP files remain the canonical hardware assets.
