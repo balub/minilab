@@ -19,6 +19,10 @@ button { font: inherit; color: inherit; }
 button:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
 
 .app-shell { display: grid; grid-template-rows: 72px minmax(0, 1fr) 48px; height: 100vh; background: var(--surface); }
+.app-shell.render-mode { display: block; height: 100vh; background: #f5f3ee; }
+.render-mode .topbar, .render-mode .module-library, .render-mode .rack-sidebar, .render-mode .statusbar, .render-mode .viewport-overlay { display: none; }
+.render-mode .workspace { display: block; width: 100vw; height: 100vh; }
+.render-mode .viewport-panel { width: 100vw; height: 100vh; }
 .topbar { display: grid; grid-template-columns: 280px 1fr auto; align-items: center; border-bottom: 1px solid var(--line); padding: 0 24px; gap: 28px; }
 .brand { display: flex; align-items: center; gap: 13px; font-family: "Arial Narrow", "Roboto Condensed", sans-serif; font-size: 23px; font-weight: 800; letter-spacing: .12em; }
 .brand-mark { display: grid; place-items: center; width: 37px; height: 37px; color: white; background: var(--ink); font-size: 21px; letter-spacing: -.08em; clip-path: polygon(0 0, 50% 30%, 100% 0, 100% 100%, 50% 70%, 0 100%); }

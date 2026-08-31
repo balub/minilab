@@ -16,6 +16,8 @@ const failureMessages = {
 }
 
 export function Configurator({ catalog }: { catalog: ModelCatalog }) {
+  const renderParam = new URLSearchParams(window.location.search).get('render')
+  const renderView = renderParam === 'top-left' || renderParam === 'top-right' ? renderParam : undefined
   const modules = useMemo(() => catalog.modules.filter((module) => module.role === 'module'), [catalog.modules])
   const [placements, setPlacements] = useState<Placement[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -82,7 +84,7 @@ export function Configurator({ catalog }: { catalog: ModelCatalog }) {
   }
 
   return (
-    <main className="app-shell">
+    <main className={`app-shell ${renderView ? 'render-mode' : ''}`}>
       <header className="topbar">
         <div className="brand" aria-label="MiniLab">
           <span className="brand-mark" aria-hidden="true">M</span>
@@ -148,6 +150,7 @@ export function Configurator({ catalog }: { catalog: ModelCatalog }) {
               selectedInstanceId={selectedId}
               onSelect={setSelectedId}
               viewResetToken={viewResetToken}
+              renderView={renderView}
             />
           </Suspense>
         </section>

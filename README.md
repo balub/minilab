@@ -6,6 +6,14 @@ The rack currently targets an 8U build with a 258 × 258 mm footprint. Its modul
 
 > **Companion tool:** [Open the MiniLab 3D configurator](https://minilab-configurator.pages.dev/) to assemble the current hardware modules in a browser before building the rack.
 
+## Hardware renders
+
+| Top-left | Top-right |
+| --- | --- |
+| ![MiniLab rack rendered from the top-left](docs/images/minilab-top-left.png) | ![MiniLab rack rendered from the top-right](docs/images/minilab-top-right.png) |
+
+These images are rendered from the current STEP-derived frame model. Run `pnpm renders` after changing the CAD or mounting metadata to regenerate both views.
+
 ## Hardware specification
 
 | Property | Current design |
@@ -51,7 +59,9 @@ minilab/
 │   └── docs/                       UI concepts and implementation records
 ├── scripts/
 │   ├── models.mjs                  STEP-to-GLB pipeline orchestration
+│   ├── render-models.mjs           Repeatable hardware render capture
 │   └── freecad/step-to-obj.py      FreeCAD tessellation step
+├── docs/images/                    Generated hardware renders used here
 ├── package.json
 └── pnpm-workspace.yaml
 ```
@@ -127,6 +137,7 @@ pnpm dev
 | Command | Purpose |
 | --- | --- |
 | `pnpm models` | Scan hardware sources, convert changed STEP files, optimize GLBs, and regenerate the catalog |
+| `pnpm renders` | Regenerate top-left and top-right hardware images from the real web model |
 | `pnpm dev` | Start the local configurator |
 | `pnpm test` | Run rack-placement, interaction, and model-pipeline tests |
 | `pnpm lint` | Run ESLint with warnings treated as failures |

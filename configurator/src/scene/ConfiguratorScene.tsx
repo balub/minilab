@@ -15,6 +15,7 @@ interface SceneProps {
   selectedInstanceId: string | null
   onSelect: (instanceId: string | null) => void
   viewResetToken: number
+  renderView?: 'top-left' | 'top-right'
 }
 
 interface ModelBoundaryProps {
@@ -218,7 +219,7 @@ function SceneContent(props: Omit<SceneProps, 'viewResetToken'>) {
   const proceduralFrame = <RackFrame rack={props.rack} />
   return (
     <>
-      <color attach="background" args={['#eef0f2']} />
+      <color attach="background" args={[props.renderView ? '#f5f3ee' : '#eef0f2']} />
       <ambientLight intensity={1.1} />
       <directionalLight position={[4, 8, 6]} intensity={2.6} castShadow shadow-mapSize={[2048, 2048]} />
       {frame?.model ? (
@@ -226,7 +227,7 @@ function SceneContent(props: Omit<SceneProps, 'viewResetToken'>) {
           <Suspense fallback={proceduralFrame}><CadModel module={frame} /></Suspense>
         </ModelBoundary>
       ) : proceduralFrame}
-      <RackGuides rack={props.rack} />
+      {props.renderView ? null : <RackGuides rack={props.rack} />}
       {props.placements.map((placement) => {
         const module = byId.get(placement.moduleId)
         return module ? (
@@ -240,34 +241,43 @@ function SceneContent(props: Omit<SceneProps, 'viewResetToken'>) {
           />
         ) : null
       })}
-      <Grid
-        position={[0, -0.01, 0]}
-        args={[14, 14]}
-        cellSize={0.5}
-        cellThickness={0.45}
-        cellColor="#cbd0d4"
-        sectionSize={2}
-        sectionThickness={0.7}
-        sectionColor="#b6bcc1"
-        fadeDistance={13}
-        infiniteGrid
-      />
+      {props.renderView ? null : (
+        <Grid
+          position={[0, -0.01, 0]}
+          args={[14, 14]}
+          cellSize={0.5}
+          cellThickness={0.45}
+          cellColor="#cbd0d4"
+          sectionSize={2}
+          sectionThickness={0.7}
+          sectionColor="#b6bcc1"
+          fadeDistance={13}
+          infiniteGrid
+        />
+      )}
       <ContactShadows position={[0, 0, 0]} opacity={0.28} scale={12} blur={2.6} far={6} />
     </>
   )
 }
 
 export function ConfiguratorScene(props: SceneProps) {
+  const cameraX = props.renderView === 'top-left' ? -7.5 : 7.5
   return (
     <Canvas
       shadows
       dpr={[1, 1.75]}
-      camera={{ position: [7.5, 5.8, 8.5], fov: 42, near: 0.1, far: 100 }}
+      camera={{
+        position: [cameraX, props.renderView ? 6.2 : 5.8, props.renderView ? 8 : 8.5],
+        fov: props.renderView ? 34 : 42,
+        near: 0.1,
+        far: 100,
+      }}
+      onCreated={({ camera }) => camera.lookAt(0, 2, 0)}
       onPointerMissed={() => props.onSelect(null)}
       aria-label="Interactive 3D MiniLab rack"
     >
       <SceneContent {...props} />
-      <Controls resetToken={props.viewResetToken} />
+      {props.renderView ? null : <Controls resetToken={props.viewResetToken} />}
     </Canvas>
   )
 }
